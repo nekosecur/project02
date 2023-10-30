@@ -2,7 +2,7 @@ import os
 
 api_id = int(os.environ.get("API_ID", "24465982"))
 api_hash = os.environ.get("API_HASH", "2b3131b7d3f6a42bd4ae1ba3b58c11c4")
-bot_token = os.environ.get("BOT_TOKEN", "5974054493:AAGNaK3vuyRtBfXloDXKO1ZpJ8YCTAjBnjk")
+bot_token = os.environ.get("BOT_TOKEN", "6933604716:AAEUhcGAFgk-pyhVr9WMN4vTtsE_q5q0588")
 # =========================================================== #
 
 db_url = os.environ.get("DB_URL", "mongodb+srv://infinitymenfess:<password>@infinitymenfess.si6bgau.mongodb.net/?retryWrites=true&w=majority")

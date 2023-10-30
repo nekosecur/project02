@@ -44,7 +44,7 @@ async def status_handler(client: Client, msg: types.Message):
     pesan += f'├Semua Menfess : {db.all_menfess}\n'
     pesan += f'└Bergabung : {db.sign_up}'
     # Load the image
-    image = Image.open('20230508_142127.jpg')  # Replace with the actual image path
+    image = Image.open('infinitymenfess.jpg')  # Replace with the actual image path
 
     # Create a BytesIO stream to save the image
     image_stream = BytesIO()

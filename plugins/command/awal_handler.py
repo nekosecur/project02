@@ -130,7 +130,7 @@ async def help_handler(client, msg):
 
     # Tambahkan InlineKeyboardButton "JASA" di sini
     keyboard = [
-        [InlineKeyboardButton("JASA", callback_data="jasa")],
+        [InlineKeyboardButton("JASA", url="https://t.me/NekoLocal)],
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 

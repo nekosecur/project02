@@ -8,6 +8,13 @@ mydb = myclient[config.db_name]
 
 mycol = mydb['user']
 
+async def get_data_pelanggan(self):
+    found = mycol.find_one({'_id': self.user_id})
+    if found:
+        return data_pelanggan(found)
+    else:
+        return None  # Atau Anda dapat mengembalikan pesan kesalahan lain jika ID tidak ditemukan
+
 
 class Database():
     def __init__(self, user_id: int):

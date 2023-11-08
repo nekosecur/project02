@@ -13,12 +13,6 @@ mycol = mydb['user']
 class Database():
     def __init__(self, user_id: int):
         self.user_id = user_id
-async def get_data_pelanggan(self):
-    found = mycol.find_one({'_id': self.user_id})
-    if found:
-        return data_pelanggan(found)
-    else:
-        return None  # Atau Anda dapat mengembalikan pesan kesalahan lain jika ID tidak ditemukan
         
     async def tambah_databot(self):
         data = {
@@ -559,6 +553,7 @@ class data_bot():
         self.id = args['_id']
         self.bot_status = args['bot_status']
         self.talent = dict(args['talent'])
+        self.member = dict(args['member'])  # Tambahkan atribut member di sini
         self.daddy_sugar = dict(args['daddy_sugar'])
         self.moansgirl = dict(args['moansgirl'])
         self.moansboy = dict(args['moansboy'])

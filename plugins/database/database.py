@@ -13,27 +13,27 @@ class Database:
     def __init__(self):
         # Tidak perlu menerima argumen lagi, gunakan bot_me.id di sini jika diperlukan
 
-    async def tambah_databot(self, user_id: int):
-        data = {
-            "_id": user_id,  # Gunakan user_id yang diteruskan sebagai argumen
-            "menfess": 0,
-            "bot_status": True,
-            "talent": {},
-            "member": {},
-            "daddy_sugar": {},
-            "moansgirl": {},
-            "moansboy": {},
-            "gfrent": {},
-            "bfrent": {},
-            "ban": {},
-            "admin": [],
-            "kirimchannel": {
-                "photo": True,
-                "video": False,
-                "voice": False
-            }
+
+async def tambah_databot(self, user_id: int):
+    data = {
+        "_id": user_id,
+        "menfess": 0,
+        "bot_status": True,
+        "talent": {},
+        "daddy_sugar": {},
+        "moansgirl": {},
+        "moansboy": {},
+        "gfrent": {},
+        "bfrent": {},
+        "ban": {},
+        "admin": [],
+        "kirimchannel": {
+            "photo": True,
+            "video": False,
+            "voice": False
         }
-        await self.tambah_pelanggan(data)
+    }
+    await self.tambah_pelanggan(data)
 
     async def cek_user_didatabase(self):
         return bool(found := mycol.find_one({'_id': self.user_id}))

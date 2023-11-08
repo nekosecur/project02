@@ -59,6 +59,7 @@ async def addmember(self, user_id: int):
             {"_id": user_id},
             {"$set": {"status": "member"}}
         )
+        self.member[user_id] = "member"
 
 async def hapusmember(self, user_id: int):
     user_data = self.get_data_pelanggan()
@@ -67,6 +68,9 @@ async def hapusmember(self, user_id: int):
             {"_id": user_id},
             {"$set": {"status": "bukan member"}}
         )
+        if user_id in self.member:
+            del self.member[user_id]
+
 
     async def update_menfess(self, coin: int, menfess: int, all_menfess: int):
         user = self.get_data_pelanggan()

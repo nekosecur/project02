@@ -1,11 +1,16 @@
 import re
 from pyrogram import Client, types, enums
 from plugins import Database
+import config  # Pastikan untuk mengimpor konfigurasi Anda
 
 async def member_handler(client: Client, msg: types.Message):
     db = Database(msg.from_user.id)
 
     if re.search(r"^[\/]addmember(\s|\n)*$", msg.text or msg.caption):
+        # Hanya izinkan admin
+        if msg.from_user.id != config.id_admin:
+            return
+
         return await msg.reply_text(
             text="<b>Cara penggunaan tambah member</b>\n\n<code>/addmember id_user</code>\n\nContoh :\n<code>/addmember 121212021</code>",
             quote=True,
@@ -13,6 +18,10 @@ async def member_handler(client: Client, msg: types.Message):
         )
 
     if re.search(r"^[\/]hapusmember(\s|\n)*$", msg.text or msg.caption):
+        # Hanya izinkan admin
+        if msg.from_user.id != config.id_admin:
+            return
+
         return await msg.reply_text(
             text="<b>Cara penggunaan hapus member</b>\n\n<code>/hapusmember id_user</code>\n\nContoh :\n<code>/hapusmember 121212021</code>",
             quote=True,
@@ -29,10 +38,14 @@ async def tambah_member_handler(client: Client, msg: types.Message):
             parse_mode=enums.ParseMode.HTML
         )
 
-    target = y[2]
-    db = Database(int(target))
+    target = int(y[2])
+    db = Database(target)
 
-    # Check if the user is banned
+    # Hanya izinkan admin
+    if msg.from_user.id != config.id_admin:
+        return
+
+    # Periksa apakah pengguna diblokir atau tidak terdaftar di database
     if target in db.get_data_bot(client.id_bot).ban:
         return await msg.reply_text(
             text=f"<i><a href='tg://user?id={str(target)}'>User</a> sedang dalam kondisi banned</i>\n└Tidak dapat menjadi member",
@@ -47,7 +60,7 @@ async def tambah_member_handler(client: Client, msg: types.Message):
             parse_mode=enums.ParseMode.HTML
         )
 
-    # Check the user's status
+    # Periksa status pengguna
     status = [
         'admin', 'owner', 'talent', 'daddy sugar', 'moans girl',
         'moans boy', 'girlfriend rent', 'boyfriend rent'
@@ -62,12 +75,12 @@ async def tambah_member_handler(client: Client, msg: types.Message):
         )
 
     try:
-        a = await client.get_chat(target)
+        a = await client.get_users(target)
         nama = await helper.escapeHTML(
             f'{a.first_name} {a.last_name}' if a.last_name else a.first_name
         )
 
-        await db.addmember(int(target))
+        await db.addmember(target)
         return await msg.reply_text(
             text=f"<a href='tg://openmessage?user_id={str(target)}'>User</a> <i>berhasil menjadi member</i>",
             quote=True,
@@ -79,4 +92,3 @@ async def tambah_member_handler(client: Client, msg: types.Message):
             quote=True,
             parse_mode=enums.ParseMode.HTML
         )
-          

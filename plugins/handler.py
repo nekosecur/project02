@@ -6,6 +6,7 @@ from pyrogram.types import Message, CallbackQuery
 from plugins import Database, Helper
 from plugins.command import *
 from bot import Bot
+from pyrogram import Client, filters, types, enums
 
 
 
@@ -17,7 +18,7 @@ async def add_member(client, message):
         user_data = db.get_data_pelanggan()
 
         if user_data.status == "bukan member":
-            db.update_status("member")
+            await db.addmember(user_id)
             await message.reply(f"Berhasil mengubah status pengguna dengan ID {user_id} menjadi 'member'.")
         else:
             await message.reply(f"Pengguna dengan ID {user_id} sudah memiliki status 'member'.")
@@ -25,10 +26,6 @@ async def add_member(client, message):
         await message.reply("Format perintah salah. Gunakan: /addmember <user_id>")
     except Exception as e:
         await message.reply(f"Terjadi kesalahan: {str(e)}")
-
-# ...
-
-# ...
 
 @Client.on_message(filters.command("hapusmember") & filters.user(config.id_admin))
 async def remove_member(client, message):
@@ -38,16 +35,15 @@ async def remove_member(client, message):
         user_data = db.get_data_pelanggan()
 
         if user_data.status == "member":
-            db.update_status("bukan member")
+            await db.hapusmember(user_id)
             await message.reply(f"Berhasil mengubah status pengguna dengan ID {user_id} menjadi 'bukan member'.")
         else:
             await message.reply(f"Pengguna dengan ID {user_id} sudah memiliki status 'bukan member'.")
     except ValueError:
         await message.reply("Format perintah salah. Gunakan: /hapusmember <user_id>")
     except Exception as e:
-        await message.reply(f"Terjadi kesalahan: {str(e)}")
+        await message.reply(f"Terjadi kesalahan: {str(e}")
 
-# ...
 
 @Bot.on_message()
 async def on_message(client: Client, msg: Message):

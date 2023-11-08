@@ -56,14 +56,14 @@ class Database():
             }
         }
 
-   async def hapus_member(self, user_id: int):
+    def hapus_member(self, user_id: int):
         last_status = self.get_data_pelanggan().status_full
         last_coin = self.get_data_pelanggan().coin
         mycol.update_one(
             {"status": last_status, "coin": f"{last_coin}_{user_id}"},
             {"$set": {
                 "status": f"bukan member_{user_id}",
-                "coin": f"0_{user_id}"  # Set the initial coin balance for users who are no longer members
+                "coin": f"0_{user_id}"
             }
         }
 

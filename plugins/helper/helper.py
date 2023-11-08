@@ -78,7 +78,7 @@ class Helper():
 
         nama = self.fullname
 
-        status = 'member'
+        status = 'bukan member'
         coin = f"0_{str(self.user_id)}"
         if self.user_id == config.id_admin:
             status = 'owner'

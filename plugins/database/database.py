@@ -45,6 +45,13 @@ class Database():
         mycol.delete_one({'_id': user_id})
         return
 
+    async def addmember(self, user_id: int):
+        mycol.update_one({'_id': user_id}, {"$set": {"member": {}}})
+    
+    async def hapusmember(self, user_id: int):
+        mycol.update_one({'_id': user_id}, {"$unset": {"member": ""}})
+
+    
     async def update_menfess(self, coin: int, menfess: int, all_menfess: int):
         user = self.get_data_pelanggan()
         last_coin = user.coin

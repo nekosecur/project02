@@ -519,11 +519,14 @@ class get_pelanggan():
         self.id_pelanggan = args
         self.json = { "total_pelanggan": len(args), "id_pelanggan": args }
 
-    def get_data_pelanggan(self, index: int = 0):
-        if found := mycol.find_one({'_id': self.id_pelanggan[index]}):
-            return data_pelanggan(found)
-        else:
-            return 'ID tidak ditemukan'
+def get_data_pelanggan(self, index: int = 0):
+    if not self.id_pelanggan:
+        return 'ID tidak ditemukan'
+    if found := mycol.find_one({'_id': self.id_pelanggan[index]}):
+        return data_pelanggan(found)
+    else:
+        return 'ID tidak ditemukan'
+
     def __str__(self) -> str:
         return str(json.dumps(self.json, indent=3))
 

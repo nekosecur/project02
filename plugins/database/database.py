@@ -10,15 +10,16 @@ mycol = mydb['user']
 
 
 class Database:
-    def __init__(self, user_id: int):
-        self.user_id = user_id
+    def __init__(self):
+        # Tidak perlu menerima argumen lagi, gunakan bot_me.id di sini jika diperlukan
 
-    async def tambah_databot(self):
+    async def tambah_databot(self, user_id: int):
         data = {
-            "_id": self.user_id,
+            "_id": user_id,  # Gunakan user_id yang diteruskan sebagai argumen
             "menfess": 0,
             "bot_status": True,
             "talent": {},
+            "member": {},
             "daddy_sugar": {},
             "moansgirl": {},
             "moansboy": {},

@@ -3,10 +3,15 @@ import re
 from pyrogram import Client, types, enums
 from plugins import Database, Helper
 
+# ...
 async def send_with_pic_handler(client: Client, msg: types.Message, key: str, hastag: list):
     db = Database(msg.from_user.id)
     helper = Helper(client, msg)
     user = db.get_data_pelanggan()
+
+    # Check if the user's status is not 'member'
+    if user.status != 'member':
+        return await msg.reply('Hanya member yang dapat mengirim pesan atau menfess.', quote=True)
 
     # Check if the sender has a username
     if msg.from_user.username is None:
@@ -60,11 +65,19 @@ async def send_with_pic_handler(client: Client, msg: types.Message, key: str, ha
     else:
         await msg.reply('media yang didukung photo, video dan voice')
 
+# ...
 async def send_menfess_handler(client: Client, msg: types.Message):
     helper = Helper(client, msg)
     db = Database(msg.from_user.id)
     db_user = db.get_data_pelanggan()
     db_bot = db.get_data_bot(client.id_bot).kirimchannel
+
+    # Check if the user's status is not 'member'
+    if db_user.status != 'member':
+        return await msg.reply('Hanya member yang dapat mengirim pesan atau menfess.', quote=True)
+
+
+
     if msg.text or msg.photo or msg.video or msg.voice:
         if msg.photo and not db_bot.photo:
             if db_user.status in ['member', 'talent']:

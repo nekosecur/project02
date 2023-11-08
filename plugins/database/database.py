@@ -19,7 +19,6 @@ class Database():
             "menfess": 0,
             "bot_status": True,
             "talent": {},
-            "member": {},
             "daddy_sugar": {},
             "moansgirl": {},
             "moansboy": {},
@@ -44,20 +43,7 @@ class Database():
     async def hapus_pelanggan(self, user_id: int):
         mycol.delete_one({'_id': user_id})
         return
-        
-async def addmember(self, user_id: int):
-    mycol.update(
-        {"_id": user_id},
-        {"$set": {"status": f"member_{user_id}"}}
-    )
 
-async def hapusmember(self, user_id: int):
-    mycol.update(
-        {"_id": user_id},
-        {"$set": {"status": f"bukan member_{user_id}"}}
-    )
-
-    
     async def update_menfess(self, coin: int, menfess: int, all_menfess: int):
         user = self.get_data_pelanggan()
         last_coin = user.coin

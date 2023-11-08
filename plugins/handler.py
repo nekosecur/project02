@@ -7,23 +7,47 @@ from plugins import Database, Helper
 from plugins.command import *
 from bot import Bot
 
-@Bot.on_message(filters.command("addmember") & filters.user(config.id_admin))
-async def add_member_handler(client: Client, msg: Message):
-    # Tambahkan logika di sini untuk menangani perintah /addmember
-    uid = msg.from_user.id
-    # Pastikan bahwa hanya config.id_admin yang dapat menggunakan perintah ini
-    if uid == config.id_admin:
-        # Lakukan tindakan yang sesuai, seperti menambahkan pengguna ke daftar member
-        await client.send_message(uid, "Anda berhasil menambahkan member.")
 
-@Bot.on_message(filters.command("hapusmember") & filters.user(config.id_admin))
-async def remove_member_handler(client: Client, msg: Message):
-    # Tambahkan logika di sini untuk menangani perintah /hapusmember
-    uid = msg.from_user.id
-    # Pastikan bahwa hanya config.id_admin yang dapat menggunakan perintah ini
-    if uid == config.id_admin:
-        # Lakukan tindakan yang sesuai, seperti menghapus pengguna dari daftar member
-        await client.send_message(uid, "Anda berhasil menghapus member.")
+
+@Client.on_message(filters.command("addmember") & filters.user(config.id_admin))
+async def add_member(client, message):
+    try:
+        user_id = int(message.text.split(" ")[1])
+        db = Database(user_id)
+        user_data = db.get_data_pelanggan()
+
+        if user_data.status == "bukan member":
+            db.update_status("member")
+            await message.reply(f"Berhasil mengubah status pengguna dengan ID {user_id} menjadi 'member'.")
+        else:
+            await message.reply(f"Pengguna dengan ID {user_id} sudah memiliki status 'member'.")
+    except ValueError:
+        await message.reply("Format perintah salah. Gunakan: /addmember <user_id>")
+    except Exception as e:
+        await message.reply(f"Terjadi kesalahan: {str(e)}")
+
+# ...
+
+# ...
+
+@Client.on_message(filters.command("hapusmember") & filters.user(config.id_admin))
+async def remove_member(client, message):
+    try:
+        user_id = int(message.text.split(" ")[1])
+        db = Database(user_id)
+        user_data = db.get_data_pelanggan()
+
+        if user_data.status == "member":
+            db.update_status("bukan member")
+            await message.reply(f"Berhasil mengubah status pengguna dengan ID {user_id} menjadi 'bukan member'.")
+        else:
+            await message.reply(f"Pengguna dengan ID {user_id} sudah memiliki status 'bukan member'.")
+    except ValueError:
+        await message.reply("Format perintah salah. Gunakan: /hapusmember <user_id>")
+    except Exception as e:
+        await message.reply(f"Terjadi kesalahan: {str(e)}")
+
+# ...
 
 @Bot.on_message()
 async def on_message(client: Client, msg: Message):

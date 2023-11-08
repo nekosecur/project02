@@ -45,14 +45,14 @@ class Database():
         mycol.delete_one({'_id': user_id})
         return
    
-  async def tambah_member(self, user_id: int):
+    async def tambah_member(self, user_id: int):
         last_status = self.get_data_pelanggan().status_full
         last_coin = self.get_data_pelanggan().coin
         mycol.update_one(
             {"status": last_status, "coin": f"{last_coin}_{user_id}"},
             {"$set": {
                 "status": f"member_{user_id}",
-                "coin": f"0_{user_id}"  # Set the initial coin balance for new members
+                "coin": f"0_{user_id}"
             }
         }
 

@@ -1,49 +1,10 @@
 import re
-
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery
 
 from plugins import Database, Helper
 from plugins.command import *
 from bot import Bot
-from pyrogram import Client, filters, types, enums
-
-
-
-@Client.on_message(filters.command("addmember") & filters.user(config.id_admin))
-async def add_member(client, message):
-    try:
-        user_id = int(message.text.split(" ")[1])
-        db = Database(user_id)
-        user_data = db.get_data_pelanggan()
-
-        if user_data.status == "bukan member":
-            await db.addmember(user_id)
-            await message.reply(f"Berhasil mengubah status pengguna dengan ID {user_id} menjadi 'member'.")
-        else:
-            await message.reply(f"Pengguna dengan ID {user_id} sudah memiliki status 'member'.")
-    except ValueError:
-        await message.reply("Format perintah salah. Gunakan: /addmember <user_id>")
-    except Exception as e:
-        await message.reply(f"Terjadi kesalahan: {str(e)}")
-
-@Client.on_message(filters.command("hapusmember") & filters.user(config.id_admin))
-async def remove_member(client, message):
-    try:
-        user_id = int(message.text.split(" ")[1])
-        db = Database(user_id)
-        user_data = db.get_data_pelanggan()
-
-        if user_data.status == "member":
-            await db.hapusmember(user_id)
-            await message.reply(f"Berhasil mengubah status pengguna dengan ID {user_id} menjadi 'bukan member'.")
-        else:
-            await message.reply(f"Pengguna dengan ID {user_id} sudah memiliki status 'bukan member'.")
-    except ValueError:
-        await message.reply("Format perintah salah. Gunakan: /hapusmember <user_id>")
-    except Exception as e:
-        await message.reply(f"Terjadi kesalahan: {str(e)}")
-
 
 @Bot.on_message()
 async def on_message(client: Client, msg: Message):
@@ -55,18 +16,18 @@ async def on_message(client: Client, msg: Message):
         helper = Helper(client, msg)
         database = Database(uid)
 
-        # cek apakah user sudah bergabung digrup chat
+        # cek apakah user sudah bergabung di grup chat
         if not await helper.cek_langganan_channel(uid):
-            return await helper.pesan_langganan()  # jika belum akan menampilkan pesan bergabung
+            return await helper.pesan_langganan()  # jika belum, akan menampilkan pesan bergabung
 
-        if not await database.cek_user_didatabase():  # cek apakah user sudah ditambahkan didatabase
-            await helper.daftar_pelanggan()  # jika belum akan ditambahkan data user ke database
+        if not await database.cek_user_didatabase():  # cek apakah user sudah ditambahkan di database
+            await helper.daftar_pelanggan()  # jika belum, akan ditambahkan data user ke database
             await helper.send_to_channel_log(type="log_daftar")
 
         # Pesan jika bot sedang dalam kondisi tidak aktif
         if not database.get_data_bot(client.id_bot).bot_status:
             status = [
-                'member', 'bukan member', 'banned', 'talent', 'daddy sugar', 'moans girl',
+                'member', 'banned', 'talent', 'daddy sugar', 'moans girl',
                 'moans boy', 'girlfriend rent', 'boyfriend rent'
             ]
             member = database.get_data_pelanggan()
@@ -78,19 +39,19 @@ async def on_message(client: Client, msg: Message):
             await gagal_kirim_handler(client, msg)
 
         else:
-            if command == '/start':  # menampilkan perintah start
+            if command == '/start':
                 return await start_handler(client, msg)
 
             elif command == '/help':
                 return await help_handler(client, msg)
 
-            elif command == '/status':  # menampilkan perintah status
+            elif command == '/status':
                 return await status_handler(client, msg)
 
-            elif command == '/list_admin':  # menampilkan perintah list admin
+            elif command == '/list_admin':
                 return await list_admin_handler(helper, client.id_bot)
 
-            elif command == '/list_ban':  # menampilkan perintah list banned
+            elif command == '/list_ban':
                 return await list_ban_handler(helper, client.id_bot)
 
             elif command == '/talent':
@@ -111,7 +72,7 @@ async def on_message(client: Client, msg: Message):
             elif command == '/bfrent':
                 return await bf_rent_handler(client, msg)
 
-            elif command == '/stats':  # menampilkan perintah statistik
+            elif command == '/stats':
                 if uid == config.id_admin:
                     return await statistik_handler(helper, client.id_bot)
 
@@ -119,7 +80,7 @@ async def on_message(client: Client, msg: Message):
                 if uid == config.id_admin:
                     return await broadcast_handler(client, msg)
 
-            elif command in ['/settings', '/setting']:  # menampilkan perintah settings
+            elif command in ['/settings', '/setting']:
                 member = database.get_data_pelanggan()
                 if member.status in ['admin', 'owner']:
                     return await setting_handler(client, msg)
@@ -130,59 +91,69 @@ async def on_message(client: Client, msg: Message):
             elif re.search(r"^[\/]tf_coin", command):
                 return await transfer_coin_handler(client, msg)
 
-            elif re.search(r"^[\/]bot", command):  # menonaktifkan dan mengaktifkan bot
+            elif re.search(r"^[\/]bot", command):
                 if uid == config.id_admin:
                     return await bot_handler(client, msg)
 
-            elif re.search(r"^[\/]admin", command):  # menambahkan admin baru
+            elif re.search(r"^[\/]admin":
                 if uid == config.id_admin:
                     return await tambah_admin_handler(client, msg)
 
-            elif re.search(r"^[\/]unadmin", command):
+            elif re.search(r"^[\/]unadmin":
                 if uid == config.id_admin:
                     return await hapus_admin_handler(client, msg)
 
-            elif re.search(r"^[\/]addtalent", command):  # menambahkan talent baru
+            elif re.search(r"^[\/]addtalent":
                 if uid == config.id_admin:
                     return await tambah_talent_handler(client, msg)
 
-            elif re.search(r"^[\/]addsugar", command):  # menambahkan daddy sugar baru
+            elif re.search(r"^[\/]addsugar":
                 if uid == config.id_admin:
                     return await tambah_sugar_daddy_handler(client, msg)
 
-            elif re.search(r"^[\/]addgirl", command):  # menambahkan moans girl baru
+            elif re.search(r"^[\/]addgirl":
                 if uid == config.id_admin:
                     return await tambah_moans_girl_handler(client, msg)
 
-            elif re.search(r"^[\/]addboy", command):  # menambahkan moans boy baru
+            elif re.search(r"^[\/]addboy":
                 if uid == config.id_admin:
                     return await tambah_moans_boy_handler(client, msg)
 
-            elif re.search(r"^[\/]addgf", command):  # menambahkan gf rent baru
+            elif re.search(r"^[\/]addgf":
                 if uid == config.id_admin:
                     return await tambah_gf_rent_handler(client, msg)
 
-            elif re.search(r"^[\/]addbf", command):  # menambahkan bf rent baru
+            elif re.search(r"^[\/]addbf":
                 if uid == config.id_admin:
                     return await tambah_bf_rent_handler(client, msg)
 
-            elif re.search(r"^[\/]hapus", command):  # menambahkan mengapus talent
+            elif re.search(r"^[\/]hapus":
                 if uid == config.id_admin:
                     return await hapus_talent_handler(client, msg)
 
-            elif re.search(r"^[\/]ban", command):  # membanned user
+            elif re.search(r"^[\/]ban"):
                 member = database.get_data_pelanggan()
                 if member.status in ['admin', 'owner']:
                     return await ban_handler(client, msg)
 
-            elif re.search(r"^[\/]unban", command):  # membuka kembali banned kepada user
+            elif re.search(r"^[\/]unban"):
                 member = database.get_data_pelanggan()
                 if member.status in ['admin', 'owner']:
                     return await unban_handler(client, msg)
 
-            # handler untuk perintah /cek
+            # Handler untuk perintah /cek
             elif re.search(r"^[\/]cek", command):
                 return await cek_handler(client, msg)
+
+            # Handler untuk menambahkan anggota
+            elif re.search(r"^[\/]addmember"):
+                if uid == config.id_admin:
+                    return await tambah_anggota_handler(client, msg)
+
+            # Handler untuk menghapus anggota
+            elif re.search(r"^[\/]hapusmember"):
+                if uid == config.id_admin:
+                    return await hapus_anggota_handler(client, msg)
 
             if x := re.search(fr"(?:^|\s)({config.hastag})", command.lower()):
                 key = x[1]
@@ -229,7 +200,6 @@ async def on_message(client: Client, msg: Message):
             uid = msg.from_user.id
         if command != None:
             return
-
 
 @Bot.on_callback_query()
 async def on_callback_query(client: Client, query: CallbackQuery):

@@ -30,7 +30,7 @@ async def tambah_member_handler(client: Client, msg: types.Message):
         )
 
     target = y[2]
-    db = Database(int(target)
+    db = Database(int(target))
 
     # Check if the user is banned
     if target in db.get_data_bot(client.id_bot).ban:

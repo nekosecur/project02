@@ -46,15 +46,13 @@ class Database():
         return
         
     async def addmember(self, user_id: int):
-        last_status = self.get_data_pelanggan(user_id).status_full
         mycol.update_one(
-            {"status": last_status}, {"$set": {"status": f"member_{user_id}"}}
+            {"_id": user_id}, {"$set": {"status": f"member_{user_id}"}}
         )
 
     async def hapusmember(self, user_id: int):
-        last_status = self.get_data_pelanggan(user_id).status_full
         mycol.update_one(
-            {"status": last_status}, {"$set": {"status": f"bukan member_{user_id}"}}
+            {"_id": user_id}, {"$set": {"status": f"bukan member_{user_id}"}}
         )
 
     

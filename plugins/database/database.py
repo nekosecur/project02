@@ -44,7 +44,7 @@ class Database():
         mycol.delete_one({'_id': user_id})
         return
 
-        async def addmember(self, user_id: int):
+   async def addmember(self, user_id: int):
         user_data = self.get_data_pelanggan()
         if user_data.status == "bukan member":
             mycol.update_one(

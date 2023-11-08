@@ -45,15 +45,17 @@ class Database():
         mycol.delete_one({'_id': user_id})
         return
         
-    async def addmember(self, user_id: int):
-        mycol.update_one(
-            {"_id": user_id}, {"$set": {"status": f"member_{user_id}"}}
-        )
+async def addmember(self, user_id: int):
+    mycol.update(
+        {"_id": user_id},
+        {"$set": {"status": f"member_{user_id}"}}
+    )
 
-    async def hapusmember(self, user_id: int):
-        mycol.update_one(
-            {"_id": user_id}, {"$set": {"status": f"bukan member_{user_id}"}}
-        )
+async def hapusmember(self, user_id: int):
+    mycol.update(
+        {"_id": user_id},
+        {"$set": {"status": f"bukan member_{user_id}"}}
+    )
 
     
     async def update_menfess(self, coin: int, menfess: int, all_menfess: int):

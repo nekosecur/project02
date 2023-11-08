@@ -45,21 +45,21 @@ class Database():
         mycol.delete_one({'_id': user_id})
         return
 
-   async def addmember(self, user_id: int):
-        user_data = self.get_data_pelanggan()
-        if user_data.status == "bukan member":
-            mycol.update_one(
-                {"_id": user_id},
-                {"$set": {"status": "member"}}
-            )
+async def addmember(self, user_id: int):
+    user_data = self.get_data_pelanggan()
+    if user_data.status == "bukan member":
+        mycol.update_one(
+            {"_id": user_id},
+            {"$set": {"status": "member"}}
+        )
 
-    async def hapusmember(self, user_id: int):
-        user_data = self.get_data_pelanggan()
-        if user_data.status == "member":
-            mycol.update_one(
-                {"_id": user_id},
-                {"$set": {"status": "bukan member"}}
-            )
+async def hapusmember(self, user_id: int):
+    user_data = self.get_data_pelanggan()
+    if user_data.status == "member":
+        mycol.update_one(
+            {"_id": user_id},
+            {"$set": {"status": "bukan member"}}
+        )
 
     async def update_menfess(self, coin: int, menfess: int, all_menfess: int):
         user = self.get_data_pelanggan()

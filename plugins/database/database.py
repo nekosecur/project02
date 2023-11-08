@@ -13,7 +13,6 @@ class Database:
     def __init__(self):
         # Tidak perlu menerima argumen lagi, gunakan bot_me.id di sini jika diperlukan
 
-
 async def tambah_databot(self, user_id: int):
     data = {
         "_id": user_id,
@@ -34,6 +33,7 @@ async def tambah_databot(self, user_id: int):
         }
     }
     await self.tambah_pelanggan(data)
+
 
     async def cek_user_didatabase(self):
         return bool(found := mycol.find_one({'_id': self.user_id}))

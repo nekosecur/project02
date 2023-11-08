@@ -9,18 +9,16 @@ mydb = myclient[config.db_name]
 mycol = mydb['user']
 
 
-
 class Database():
     def __init__(self, user_id: int):
         self.user_id = user_id
-        
+
     async def tambah_databot(self):
         data = {
             "_id": self.user_id,
             "menfess": 0,
             "bot_status": True,
             "talent": {},
-            "member": {},
             "daddy_sugar": {},
             "moansgirl": {},
             "moansboy": {},
@@ -28,6 +26,7 @@ class Database():
             "bfrent": {},
             "ban": {},
             "admin": [],
+            "member": [],
             "kirimchannel": {
                 "photo": True,
                 "video": False,
@@ -45,26 +44,28 @@ class Database():
     async def hapus_pelanggan(self, user_id: int):
         mycol.delete_one({'_id': user_id})
         return
-
-async def addmember(self, user_id: int):
-    user_data = self.get_data_pelanggan()
-    if user_data.status == "bukan member":
+   
+  async def tambah_member(self, user_id: int):
+        last_status = self.get_data_pelanggan().status_full
+        last_coin = self.get_data_pelanggan().coin
         mycol.update_one(
-            {"_id": user_id},
-            {"$set": {"status": "member"}}
-        )
-        self.member[user_id] = "member"
+            {"status": last_status, "coin": f"{last_coin}_{user_id}"},
+            {"$set": {
+                "status": f"member_{user_id}",
+                "coin": f"0_{user_id}"  # Set the initial coin balance for new members
+            }
+        }
 
-async def hapusmember(self, user_id: int):
-    user_data = self.get_data_pelanggan()
-    if user_data.status == "member":
+   async def hapus_member(self, user_id: int):
+        last_status = self.get_data_pelanggan().status_full
+        last_coin = self.get_data_pelanggan().coin
         mycol.update_one(
-            {"_id": user_id},
-            {"$set": {"status": "bukan member"}}
-        )
-        if user_id in self.member:
-            del self.member[user_id]
-
+            {"status": last_status, "coin": f"{last_coin}_{user_id}"},
+            {"$set": {
+                "status": f"bukan member_{user_id}",
+                "coin": f"0_{user_id}"  # Set the initial coin balance for users who are no longer members
+            }
+        }
 
     async def update_menfess(self, coin: int, menfess: int, all_menfess: int):
         user = self.get_data_pelanggan()
@@ -517,14 +518,11 @@ class get_pelanggan():
         self.id_pelanggan = args
         self.json = { "total_pelanggan": len(args), "id_pelanggan": args }
 
-def get_data_pelanggan(self, index: int = 0):
-    if not self.id_pelanggan:
-        return 'ID tidak ditemukan'
-    if found := mycol.find_one({'_id': self.id_pelanggan[index]}):
-        return data_pelanggan(found)
-    else:
-        return 'ID tidak ditemukan'
-
+    def get_data_pelanggan(self, index: int = 0):
+        if found := mycol.find_one({'_id': self.id_pelanggan[index]}):
+            return data_pelanggan(found)
+        else:
+            return 'ID tidak ditemukan'
     def __str__(self) -> str:
         return str(json.dumps(self.json, indent=3))
 
@@ -553,7 +551,6 @@ class data_bot():
         self.id = args['_id']
         self.bot_status = args['bot_status']
         self.talent = dict(args['talent'])
-        self.member = dict(args['member'])  # Tambahkan atribut member di sini
         self.daddy_sugar = dict(args['daddy_sugar'])
         self.moansgirl = dict(args['moansgirl'])
         self.moansboy = dict(args['moansboy'])
@@ -561,6 +558,7 @@ class data_bot():
         self.bfrent = dict(args['bfrent'])
         self.ban = dict(args['ban'])
         self.admin = list(args['admin'])
+        self.member = list(args['member'])
         self.kirimchannel = kirim_channel(dict(args['kirimchannel']))
         # del args['menfess']
         self.json = args

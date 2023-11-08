@@ -9,7 +9,7 @@ mydb = myclient[config.db_name]
 mycol = mydb['user']
 
 
-class Database():
+class Database:
     def __init__(self, user_id: int):
         self.user_id = user_id
 

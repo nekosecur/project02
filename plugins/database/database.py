@@ -396,6 +396,40 @@ class Database():
             {"$set": {"coin": f"{coin}_{self.user_id}"}}
         )
         mycol.update_one(last_data, {"$set": {"bfrent": new_data}})
+
+class Database():
+    # ...
+    
+    async def tambah_member(self, id_target: int):
+        user = self.get_data_pelanggan(id_target)
+        if user.status != "member":
+            last_status = user.status_full
+            coin_awal = user.coin
+            mycol.update_one(
+                {"status": last_status, "coin": f"{coin_awal}_{id_target}"},
+                {
+                    "$set": {
+                        "status": f"member_{id_target}",
+                        "coin": f"{coin_awal + 1000}_{id_target}",
+                    }
+                },
+            )
+
+    async def hapus_member(self, id_target: int):
+        user = self.get_data_pelanggan(id_target)
+        if user.status == "member":
+            last_status = user.status_full
+            coin_awal = user.coin
+            mycol.update_one(
+                {"status": last_status, "coin": f"{coin_awal}_{id_target}"},
+                {
+                    "$set": {
+                        "status": f"bukan member_{id_target}",
+                        "coin": f"{coin_awal - 1000}_{id_target}",
+                    }
+                },
+            )
+
     
     async def bot_handler(self, status: str):
         if status in {'on', '<on>'}:

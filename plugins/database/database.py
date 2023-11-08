@@ -44,6 +44,9 @@ class Database():
     async def hapus_pelanggan(self, user_id: int):
         mycol.delete_one({'_id': user_id})
         return
+        
+    async def update_status(self, user_id: int, new_status: str):
+        mycol.update_one({'_id': user_id}, {"$set": {"status": new_status}})
 
     async def addmember(self, user_id: int):
         mycol.update_one({'_id': user_id}, {"$set": {"status": "member"}})

@@ -59,13 +59,14 @@ class Database():
     def hapus_member(self, user_id: int):
         last_status = self.get_data_pelanggan().status_full
         last_coin = self.get_data_pelanggan().coin
-        mycol.update_one(
-            {"status": last_status, "coin": f"{last_coin}_{user_id}"},
-            {"$set": {
-                "status": f"bukan member_{user_id}",
-                "coin": f"0_{user_id}"
-            }
-        }
+    mycol.update_one(
+    {"status": last_status, "coin": f"{last_coin}_{user_id}"},
+    {"$set": {
+        "status": f"member_{user_id}",
+        "coin": f"0_{user_id}"
+    }}
+)
+
 
     async def update_menfess(self, coin: int, menfess: int, all_menfess: int):
         user = self.get_data_pelanggan()

@@ -9,31 +9,30 @@ mydb = myclient[config.db_name]
 mycol = mydb['user']
 
 
-class Database:
-    def __init__(self):
-        # Tidak perlu menerima argumen lagi, gunakan bot_me.id di sini jika diperlukan
+class Database():
+    def __init__(self, user_id: int):
+        self.user_id = user_id
 
-async def tambah_databot(self, user_id: int):
-    data = {
-        "_id": user_id,
-        "menfess": 0,
-        "bot_status": True,
-        "talent": {},
-        "daddy_sugar": {},
-        "moansgirl": {},
-        "moansboy": {},
-        "gfrent": {},
-        "bfrent": {},
-        "ban": {},
-        "admin": [],
-        "kirimchannel": {
-            "photo": True,
-            "video": False,
-            "voice": False
+    async def tambah_databot(self):
+        data = {
+            "_id": self.user_id,
+            "menfess": 0,
+            "bot_status": True,
+            "talent": {},
+            "daddy_sugar": {},
+            "moansgirl": {},
+            "moansboy": {},
+            "gfrent": {},
+            "bfrent": {},
+            "ban": {},
+            "admin": [],
+            "kirimchannel": {
+                "photo": True,
+                "video": False,
+                "voice": False
+            }
         }
-    }
-    await self.tambah_pelanggan(data)
-
+        await self.tambah_pelanggan(data)
 
     async def cek_user_didatabase(self):
         return bool(found := mycol.find_one({'_id': self.user_id}))
@@ -44,6 +43,22 @@ async def tambah_databot(self, user_id: int):
     async def hapus_pelanggan(self, user_id: int):
         mycol.delete_one({'_id': user_id})
         return
+
+        async def addmember(self, user_id: int):
+        user_data = self.get_data_pelanggan()
+        if user_data.status == "bukan member":
+            mycol.update_one(
+                {"_id": user_id},
+                {"$set": {"status": "member"}}
+            )
+
+    async def hapusmember(self, user_id: int):
+        user_data = self.get_data_pelanggan()
+        if user_data.status == "member":
+            mycol.update_one(
+                {"_id": user_id},
+                {"$set": {"status": "bukan member"}}
+            )
 
     async def update_menfess(self, coin: int, menfess: int, all_menfess: int):
         user = self.get_data_pelanggan()
@@ -397,40 +412,6 @@ async def tambah_databot(self, user_id: int):
             {"$set": {"coin": f"{coin}_{self.user_id}"}}
         )
         mycol.update_one(last_data, {"$set": {"bfrent": new_data}})
-
-class Database():
-    # ...
-    
-    async def tambah_member(self, id_target: int):
-        user = self.get_data_pelanggan(id_target)
-        if user.status != "member":
-            last_status = user.status_full
-            coin_awal = user.coin
-            mycol.update_one(
-                {"status": last_status, "coin": f"{coin_awal}_{id_target}"},
-                {
-                    "$set": {
-                        "status": f"member_{id_target}",
-                        "coin": f"{coin_awal + 1000}_{id_target}",
-                    }
-                },
-            )
-
-    async def hapus_member(self, id_target: int):
-        user = self.get_data_pelanggan(id_target)
-        if user.status == "member":
-            last_status = user.status_full
-            coin_awal = user.coin
-            mycol.update_one(
-                {"status": last_status, "coin": f"{coin_awal}_{id_target}"},
-                {
-                    "$set": {
-                        "status": f"bukan member_{id_target}",
-                        "coin": f"{coin_awal - 1000}_{id_target}",
-                    }
-                },
-            )
-
     
     async def bot_handler(self, status: str):
         if status in {'on', '<on>'}:

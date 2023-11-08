@@ -7,6 +7,23 @@ from plugins import Database, Helper
 from plugins.command import *
 from bot import Bot
 
+@Bot.on_message(filters.command("addmember") & filters.user(config.id_admin))
+async def add_member_handler(client: Client, msg: Message):
+    # Tambahkan logika di sini untuk menangani perintah /addmember
+    uid = msg.from_user.id
+    # Pastikan bahwa hanya config.id_admin yang dapat menggunakan perintah ini
+    if uid == config.id_admin:
+        # Lakukan tindakan yang sesuai, seperti menambahkan pengguna ke daftar member
+        await client.send_message(uid, "Anda berhasil menambahkan member.")
+
+@Bot.on_message(filters.command("hapusmember") & filters.user(config.id_admin))
+async def remove_member_handler(client: Client, msg: Message):
+    # Tambahkan logika di sini untuk menangani perintah /hapusmember
+    uid = msg.from_user.id
+    # Pastikan bahwa hanya config.id_admin yang dapat menggunakan perintah ini
+    if uid == config.id_admin:
+        # Lakukan tindakan yang sesuai, seperti menghapus pengguna dari daftar member
+        await client.send_message(uid, "Anda berhasil menghapus member.")
 
 @Bot.on_message()
 async def on_message(client: Client, msg: Message):
@@ -29,7 +46,7 @@ async def on_message(client: Client, msg: Message):
         # Pesan jika bot sedang dalam kondisi tidak aktif
         if not database.get_data_bot(client.id_bot).bot_status:
             status = [
-                'member', 'banned', 'talent', 'daddy sugar', 'moans girl',
+                'member', 'bukan member', 'banned', 'talent', 'daddy sugar', 'moans girl',
                 'moans boy', 'girlfriend rent', 'boyfriend rent'
             ]
             member = database.get_data_pelanggan()

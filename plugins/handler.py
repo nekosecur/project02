@@ -42,7 +42,7 @@ async def remove_member(client, message):
     except ValueError:
         await message.reply("Format perintah salah. Gunakan: /hapusmember <user_id>")
     except Exception as e:
-        await message.reply(f"Terjadi kesalahan: {str(e}")
+        await message.reply(f"Terjadi kesalahan: {str(e)}")
 
 
 @Bot.on_message()

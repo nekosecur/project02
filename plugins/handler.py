@@ -131,12 +131,12 @@ async def on_message(client: Client, msg: Message):
                 if uid == config.id_admin:
                     return await hapus_talent_handler(client, msg)
 
-            elif re.search(r"^[\/]ban"):
+            elif re.search(r"^[\/]ban", command):
                 member = database.get_data_pelanggan()
                 if member.status in ['admin', 'owner']:
                     return await ban_handler(client, msg)
 
-            elif re.search(r"^[\/]unban"):
+            elif re.search(r"^[\/]unban", command):
                 member = database.get_data_pelanggan()
                 if member.status in ['admin', 'owner']:
                     return await unban_handler(client, msg)
@@ -146,12 +146,12 @@ async def on_message(client: Client, msg: Message):
                 return await cek_handler(client, msg)
 
             # Handler untuk menambahkan anggota
-            elif re.search(r"^[\/]addmember"):
+            elif re.search(r"^[\/]addmember", command):
                 if uid == config.id_admin:
                     return await tambah_anggota_handler(client, msg)
 
             # Handler untuk menghapus anggota
-            elif re.search(r"^[\/]hapusmember"):
+            elif re.search(r"^[\/]hapusmember", command):
                 if uid == config.id_admin:
                     return await hapus_anggota_handler(client, msg)
 

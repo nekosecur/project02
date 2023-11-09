@@ -19,8 +19,7 @@ class Database():
 
     def get_data_pelanggan(self):
         found = mycol.find_one({'_id': self.user_id})
-        return self.create_data_pelanggan_instance(found)
-
+        return self.data_pelanggan(found)
 
 
     async def tambah_databot(self):
@@ -548,6 +547,10 @@ class data_pelanggan():
 
     def __str__(self) -> str:
         return str(json.dumps(self.json, indent=3))
+
+    def get_data_pelanggan(self):
+        found = mycol.find_one({'_id': self.user_id})
+        return self.data_pelanggan(found)
 
 
 class data_bot():

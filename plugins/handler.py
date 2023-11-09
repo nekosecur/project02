@@ -95,7 +95,7 @@ async def on_message(client: Client, msg: Message):
                 if uid == config.id_admin:
                     return await bot_handler(client, msg)
 
-            elif re.search(r"^[\/]admin":
+            elif re.search(r"^[\/]admin", command):
                 if uid == config.id_admin:
                     return await tambah_admin_handler(client, msg)
 

@@ -110,6 +110,7 @@ class Database():
         {"$set": {"status": f"{new_status}_{user_id}"}}
     )
 
+
     async def tambah_member(self, user_id: int):
     mycol.update_one(
         {"_id": user_id},

@@ -19,7 +19,7 @@ class Database():
 
     def get_data_pelanggan(self):
         found = mycol.find_one({'_id': self.user_id})
-        return self.data_pelanggan(found)
+        return self.get_data_pelanggan(found)
 
 
     async def tambah_databot(self):

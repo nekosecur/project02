@@ -17,14 +17,8 @@ class Database():
         found = mycol.find_one({'_id': id_bot})
         return data_bot(found)
 
-    def get_data_pelanggan(self, index: int = 0):
-        if found := mycol.find_one({'_id': self.id_pelanggan[index]}):
-            return data_pelanggan(found)
-        else:
-            return 'ID tidak ditemukan'
-    def __str__(self) -> str:
-        return str(json.dumps(self.json, indent=3))
-
+    def create_data_pelanggan_instance(self, args):
+        return data_pelanggan(args)
 
 
 

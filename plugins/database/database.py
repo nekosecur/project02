@@ -170,7 +170,6 @@ class Database():
         )
         mycol.update_one(last_data, {"$set": {"talent": new_data}})
 
-        async def tambah_member(self, id_talent: int, id_bot: int, nama: str):
 async def tambah_member(self, id_member: int, id_bot: int, nama: str):
     last_data = {
         "talent": self.get_data_bot(id_bot).talent

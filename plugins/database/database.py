@@ -22,6 +22,7 @@ class Database():
     return data_pelanggan(found)
 
 
+
     async def tambah_databot(self):
         data = {
             "_id": self.user_id,

@@ -8,7 +8,6 @@ mydb = myclient[config.db_name]
 
 mycol = mydb['user']
 
-
 class Database():
     def __init__(self, user_id: int):
         self.user_id = user_id
@@ -83,6 +82,7 @@ class Database():
                 "all_menfess": (all_menfess + 1)}
             }
         )
+
     async def reset_menfess(self):
         last = {"menfess" : {"$regex": "^[0-9]"}}
         new = { "$set": { "menfess": 0 } }
@@ -105,25 +105,23 @@ class Database():
         )
 
     async def update_status_member(self, user_id: int, new_status: str):
-    mycol.update_one(
-        {"_id": user_id},
-        {"$set": {"status": f"{new_status}_{user_id}"}}
-    )
-
+        mycol.update_one(
+            {"_id": user_id},
+            {"$set": {"status": f"{new_status}_{user_id}"}}
+        )
 
     async def tambah_member(self, user_id: int):
-    mycol.update_one(
-        {"_id": user_id},
-        {"$set": {"status": f"member_{user_id}"}}
-    )
+        mycol.update_one(
+            {"_id": user_id},
+            {"$set": {"status": f"member_{user_id}"}}
+        )
     
     async def hapus_member(self, user_id: int):
-    mycol.update_one(
-        {"_id": user_id},
-        {"$set": {"status": f"bukan member_{user_id}"}}
-    )
-
-    
+        mycol.update_one(
+            {"_id": user_id},
+            {"$set": {"status": f"bukan member_{user_id}"}}
+        )
+        
     async def update_admin(self, id_admin: int, id_bot: int):
         last_data = {
             "admin": self.get_data_bot(id_bot).admin

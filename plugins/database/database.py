@@ -44,6 +44,7 @@ class Database():
             "menfess": 0,
             "bot_status": True,
             "talent": {},
+            "member": {},
             "daddy_sugar": {},
             "moansgirl": {},
             "moansboy": {},
@@ -573,6 +574,7 @@ class data_bot():
         self.id = args['_id']
         self.bot_status = args['bot_status']
         self.talent = dict(args['talent'])
+        self.member = dict(args['member'])
         self.daddy_sugar = dict(args['daddy_sugar'])
         self.moansgirl = dict(args['moansgirl'])
         self.moansboy = dict(args['moansboy'])

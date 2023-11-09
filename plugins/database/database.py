@@ -13,6 +13,10 @@ class Database():
     def __init__(self, user_id: int):
         self.user_id = user_id
 
+    def get_data_bot(self, id_bot):
+        found = mycol.find_one({'_id': id_bot})
+        return data_bot(found)
+
     async def tambah_databot(self):
         data = {
             "_id": self.user_id,

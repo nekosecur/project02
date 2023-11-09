@@ -103,18 +103,20 @@ class Database():
                 "coin": f"{diterima}_{id_target}"
             }}
         )
-async def update_status_member(self, user_id: int, new_status: str):
+
+    async def update_status_member(self, user_id: int, new_status: str):
     mycol.update_one(
         {"_id": user_id},
         {"$set": {"status": f"{new_status}_{user_id}"}}
     )
-async def tambah_member(self, user_id: int):
+
+    async def tambah_member(self, user_id: int):
     mycol.update_one(
         {"_id": user_id},
         {"$set": {"status": f"member_{user_id}"}}
     )
-
-async def hapus_member(self, user_id: int):
+    
+    async def hapus_member(self, user_id: int):
     mycol.update_one(
         {"_id": user_id},
         {"$set": {"status": f"bukan member_{user_id}"}}

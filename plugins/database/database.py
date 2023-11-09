@@ -17,8 +17,9 @@ class Database():
         found = mycol.find_one({'_id': id_bot})
         return data_bot(found)
 
-    def create_data_pelanggan_instance(self, args):
-        return data_pelanggan(args)
+    def get_data_pelanggan(self):
+        found = mycol.find_one({'_id': self.user_id})
+        return self.create_data_pelanggan_instance(found)
 
 
 

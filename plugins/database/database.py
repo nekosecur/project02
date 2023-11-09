@@ -17,6 +17,11 @@ class Database():
         found = mycol.find_one({'_id': id_bot})
         return data_bot(found)
 
+    def get_data_pelanggan(self):
+    found = mycol.find_one({'_id': self.user_id})
+    return data_pelanggan(found)
+
+
     async def tambah_databot(self):
         data = {
             "_id": self.user_id,

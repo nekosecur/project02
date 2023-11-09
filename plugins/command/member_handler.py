@@ -48,7 +48,7 @@ async def tambah_anggota_handler(client: Client, msg: types.Message):
             text=f"<i>Kamu telah ditambahkan sebagai anggota bot</i>\n└Ditambahkan oleh : <a href='tg://openmessage?user_id={str(client.id_bot)}'>Bot</a>",
             parse_mode=enums.ParseMode.HTML
         )
-        await db.tambah_anggota(int(target), client.id_bot, nama)
+        await db.tambah_member(int(target), client.id_bot, nama)
         return await msg.reply_text(
             text=f"<a href='tg://openmessage?user_id={str(target)}'>User</a> <i>berhasil ditambahkan sebagai anggota bot</i>\n└Ditambahkan oleh : <a href='tg://openmessage?user_id={str(client.id_bot)}'>Bot</a>",
             quote=True, parse_mode=enums.ParseMode.HTML
@@ -94,7 +94,7 @@ async def hapus_anggota_handler(client: Client, msg: types.Message):
             text=f"<i>Maaf, kamu telah dihapus dari anggota bot</i>\n└Dihapus oleh : <a href='tg://openmessage?user_id={str(client.id_bot)}'>Bot</a>",
             parse_mode=enums.ParseMode.HTML
         )
-        await db.hapus_anggota(int(target), client.id_bot)
+        await db.hapus_member(int(target), client.id_bot)
         return await msg.reply_text(
             text=f"<a href='tg://openmessage?user_id={str(target)}'>User</a> <i>berhasil dihapus sebagai anggota bot</i>\n└Dihapus oleh : <a href='tg://openmessage?user_id={str(client.id_bot)}'>Bot</a>",
             quote=True, parse_mode=enums.ParseMode.HTML

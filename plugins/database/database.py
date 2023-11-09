@@ -113,13 +113,13 @@ class Database():
     async def tambah_member(self, user_id: int):
         mycol.update_one(
             {"_id": user_id},
-            {"$set": {"status": f"member_{user_id}"}}
+            {"$set": {"status": f"member"}}
        )
         
     async def hapus_member(self, user_id: int):
         mycol.update_one(
             {"_id": user_id},
-            {"$set": {"status": f"bukan member_{user_id}"}}
+            {"$set": {"status": f"bukan member"}}
         )
         
     async def update_admin(self, id_admin: int, id_bot: int):

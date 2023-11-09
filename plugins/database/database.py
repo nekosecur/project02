@@ -114,8 +114,8 @@ class Database():
         mycol.update_one(
             {"_id": user_id},
             {"$set": {"status": f"member_{user_id}"}}
-        )
-    
+       )
+        
     async def hapus_member(self, user_id: int):
         mycol.update_one(
             {"_id": user_id},

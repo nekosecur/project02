@@ -26,7 +26,6 @@ class Database():
             "bfrent": {},
             "ban": {},
             "admin": [],
-            "member": [],
             "kirimchannel": {
                 "photo": True,
                 "video": False,
@@ -44,29 +43,28 @@ class Database():
     async def hapus_pelanggan(self, user_id: int):
         mycol.delete_one({'_id': user_id})
         return
-   
-    async def tambah_member(self, user_id: int):
-        last_status = self.get_data_pelanggan().status_full
-        last_coin = self.get_data_pelanggan().coin
+
+    async def tambah_anggota(self, user_id: int, status: str, coin: int):
         mycol.update_one(
-            {"status": last_status, "coin": f"{last_coin}_{user_id}"},
-            {"$set": {
-                "status": f"member_{user_id}",
-                "coin": f"0_{user_id}"
+            {"_id": user_id},
+            {
+                "$set": {
+                    "status": status,
+                    "coin": f"{coin}_{user_id}"
+                }
             }
-        }
+        )
 
-    def hapus_member(self, user_id: int):
-        last_status = self.get_data_pelanggan().status_full
-        last_coin = self.get_data_pelanggan().coin
-    mycol.update_one(
-    {"status": last_status, "coin": f"{last_coin}_{user_id}"},
-    {"$set": {
-        "status": f"member_{user_id}",
-        "coin": f"0_{user_id}"
-    }}
-)
-
+    async def hapus_anggota(self, user_id: int):
+        mycol.update_one(
+            {"_id": user_id},
+            {
+                "$set": {
+                    "status": "bukan member",
+                    "coin": f"0_{user_id}"
+                }
+            }
+        )
 
     async def update_menfess(self, coin: int, menfess: int, all_menfess: int):
         user = self.get_data_pelanggan()
@@ -559,7 +557,6 @@ class data_bot():
         self.bfrent = dict(args['bfrent'])
         self.ban = dict(args['ban'])
         self.admin = list(args['admin'])
-        self.member = list(args['member'])
         self.kirimchannel = kirim_channel(dict(args['kirimchannel']))
         # del args['menfess']
         self.json = args

@@ -99,35 +99,35 @@ async def on_message(client: Client, msg: Message):
                 if uid == config.id_admin:
                     return await tambah_admin_handler(client, msg)
 
-            elif re.search(r"^[\/]unadmin":
+            elif re.search(r"^[\/]unadmin", command):
                 if uid == config.id_admin:
                     return await hapus_admin_handler(client, msg)
 
-            elif re.search(r"^[\/]addtalent":
+            elif re.search(r"^[\/]addtalent", command):
                 if uid == config.id_admin:
                     return await tambah_talent_handler(client, msg)
 
-            elif re.search(r"^[\/]addsugar":
+            elif re.search(r"^[\/]addsugar", command):
                 if uid == config.id_admin:
                     return await tambah_sugar_daddy_handler(client, msg)
 
-            elif re.search(r"^[\/]addgirl":
+            elif re.search(r"^[\/]addgirl", command):
                 if uid == config.id_admin:
                     return await tambah_moans_girl_handler(client, msg)
 
-            elif re.search(r"^[\/]addboy":
+            elif re.search(r"^[\/]addboy", command):
                 if uid == config.id_admin:
                     return await tambah_moans_boy_handler(client, msg)
 
-            elif re.search(r"^[\/]addgf":
+            elif re.search(r"^[\/]addgf", command):
                 if uid == config.id_admin:
                     return await tambah_gf_rent_handler(client, msg)
 
-            elif re.search(r"^[\/]addbf":
+            elif re.search(r"^[\/]addbf", command):
                 if uid == config.id_admin:
                     return await tambah_bf_rent_handler(client, msg)
 
-            elif re.search(r"^[\/]hapus":
+            elif re.search(r"^[\/]hapus", command):
                 if uid == config.id_admin:
                     return await hapus_talent_handler(client, msg)
 
